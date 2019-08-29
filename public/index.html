@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <title>Welcome to Feathers</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+        font-weight: 400;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .center-text {
+        text-align: center;
+      }
+
+      main {
+        margin-top: 100px;
+        padding: 20px;
+      }
+
+      img.logo {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-size: 2em;
+        font-weight: 100;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+      }
+
+      footer p {
+        font-weight: 300;
+        font-size: 1.0em;
+      }
+
+      a {
+        color: #31D8A0;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        color: #31D8A0;
+      }
+    </style>
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script type="text/javascript">
+      // Set up socket.io
+      const socket = io('http://localhost:3030');
+      // Initialize a Feathers app
+      const app = feathers();
+      
+      // Register socket.io to talk to our server
+      app.configure(feathers.socketio(socket));
+  
+      // Form submission handler that sends a new message
+      async function insert () {
+        console.log("I M HERE");
+        
+        var obj = [
+            {'type':'My type',
+            'color':'green',
+            'location':'north'},
+            {'type':'My type1',
+            'color':'red',
+            'location':'east'},
+            {'type':'My type3',
+            'color':'blue',
+            'location':'west'},
+          ]
+        
+  
+        // Create a new message with the input field value
+        let res = await app.service('playground').create(obj);
+        console.log('res',res);
+  
+        messageInput.value = '';
+      }
+    </script>
+  </head>
+  <body>
+    <main class="container">
+      <h2 class="center-text">Demo to call bulk insert in feathersjs, sequalize and postgres</h2>
+      <div style="width: 100%; text-align: center; margin-top: 10px"><button onclick="insert()">Insert Data</button></div>
+      <div style="width: 100%; text-align: center; margin-top: 10px">
+
+      <h4 class="center-text">References</h4>
+      <h5 class="center-text">
+          <a href="https://stackoverflow.com/questions/55238079/feathers-js-create-multi-entries-dumb-question"
+          > Feathersjs , sequalize  enable multi, multi create in a service</a></h5>
+      <h5 class="center-text"><a href="https://stackoverflow.com/questions/39587767/disable-updatedat-update-date-field-in-sequelize-js"
+        > How to skip timestamp attributes in a sequelize model</a></h5>
+
+        <h5 class="center-text">
+          <a href="https://github.com/feathersjs-ecosystem/feathers-sequelize/blob/5ee16785b5f80dc66830e2fbda8ae2719da76513/test/index.test.js"
+          > Feathersjs , sequalize not to use id _ID in a model </a></h5>
+      </div>
+      <footer>
+        <p class="center-text">For more information on Feathers see <a href="https://docs.feathersjs.com" title="Feathers Documentation" target="blank">docs.feathersjs.com</a>.</p>
+      </footer>
+    </main>
+  </body>
+</html>
